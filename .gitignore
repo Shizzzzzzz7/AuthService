@@ -1,3 +1,4 @@
 node_modules/
 .env
 Notes.txt
+src/config/config.json
