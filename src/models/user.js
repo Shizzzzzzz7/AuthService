@@ -39,6 +39,9 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
   });
 
+  //A hook may contain async actions - in this case the hook function should 
+  //return a promise as it can't use await.
+
   User.beforeCreate((user)=>{
     const encryptedPass=bcrypt.hashSync(user.password, SALT);
     user.password= encryptedPass;
