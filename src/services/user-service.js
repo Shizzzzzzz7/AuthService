@@ -1,5 +1,6 @@
 const UserRepository= require("../repository/user-repository");
 const jwt= require("jsonwebtoken");
+const bcrypt= require("bcrypt");
 const { JWT_KEY }= require("../config/serverConfig");
 
 class UserService{
@@ -11,6 +12,25 @@ class UserService{
         try {
             const user= await this.userRepository.create(data);
             return user;
+        } catch (error) {
+            console.log("Problem in Service Layer");
+            throw {error};
+        }
+    }
+
+    async signIn(email, plainPassword){
+        try {
+            const user= await this.userRepository.getByEmail(email);
+
+            const isPassword=await this.checkPassword(plainPassword, user.password);
+
+            if(!isPassword){
+                throw {error: "Password Doesn,t match"};
+            }
+
+            const token= this.createToken({email:user.email, id:user.id});
+            return token;
+
         } catch (error) {
             console.log("Problem in Service Layer");
             throw {error};
@@ -33,6 +53,16 @@ class UserService{
             return result;
         } catch (error) {
             console.log("Problem in JWT Verification", error);
+            throw {error};
+        }
+    }
+
+    async checkPassword(plainPassword, encryptedPassword){
+        try {
+            const result=await bcrypt.compare(plainPassword, encryptedPassword);
+            return result;
+        } catch (error) {
+            console.log("Problem in Service Layer[checkPassword]");
             throw {error};
         }
     }
