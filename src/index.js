@@ -7,7 +7,6 @@ const apiRoutes= require("./routes/index");
 
 const app= express();
 
-
 const prepareAndStart = ()=>{
 
     app.use(bodyParser.json());
@@ -18,6 +17,7 @@ const prepareAndStart = ()=>{
     app.listen(PORT,()=>{
 
         console.log(`Server Started at Port: ${PORT}`);
+
     });
 }
 
