@@ -83,6 +83,16 @@ class UserService{
             throw {error};
         }
     }
+
+    async isAdmin(userId){
+        try {
+            const result= await this.userRepository.isAdmin(userId);
+            return result;
+        } catch (error) {
+            console.log("Problem in Service Layer");
+            throw {error};
+        }
+    }
 }
 
 module.exports= UserService;

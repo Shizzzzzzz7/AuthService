@@ -10,6 +10,7 @@ router.post(
     AuthRequestValidator.authRequestValidator, 
     UserController.create
 );
+
 router.post(
     "/signIn", 
     AuthRequestValidator.authRequestValidator,
@@ -19,6 +20,12 @@ router.post(
 router.get(
     '/isAuthentic',
     UserController.isAuthentic
+);
+
+router.post(
+    "/isAdmin",
+    AuthRequestValidator.isAdminValidator, 
+    UserController.isAdmin
 );
 
 module.exports= router;

@@ -68,8 +68,29 @@ const isAuthentic= async (req,res)=>{
     }
 }
 
+const isAdmin= async(req,res)=>{
+    try {
+        const response= await userService.isAdmin(req.body.id);
+        return res.status(200).json({
+            data: response,
+            error:{},
+            success: true,
+            message: "Successfully fetched weather user has Admin Role or Not"
+        });
+    } catch (error) {
+        console.log("Error in Controller Layer");
+        return res.status(500).json({
+            data: {},
+            error:error,
+            success: false,
+            message: "User Doesn't have Admin Role"
+        });
+    }
+}
+
 module.exports={
     create,
     signIn,
-    isAuthentic
+    isAuthentic,
+    isAdmin
 }
