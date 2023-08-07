@@ -1,5 +1,7 @@
 const {User,Role}= require("../models/index");
+const { StatusCodes }= require("http-status-codes");
 const ValidationError= require("../utils/errors/validation-error");
+const ClientError= require("../utils/errors/client-error");
 
 class UserRepository{
 
@@ -41,13 +43,28 @@ class UserRepository{
             });
 
             if(!user){
-                throw {error: "User Doesn't exist"};
+                let errorName= "AttributeNotFound";
+                let errorMessages="Invalid Email Sent";
+                let errorExplaination= "Please check the Email, as there is no record of Email";
+                let statusCode= StatusCodes.NOT_FOUND;
+
+                const clientError= new ClientError(
+                    errorName,
+                    errorMessages,
+                    errorExplaination,
+                    statusCode
+                );
+
+                throw clientError;
             }
 
             return user;
         } catch (error) {
+            if(error.name === "AttributeNotFound"){
+                throw error;
+            }
             console.log("Went Wrong in Repository Layer");
-            throw {error};
+            throw error;
         }
     }
 
