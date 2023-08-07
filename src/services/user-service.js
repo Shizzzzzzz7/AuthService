@@ -14,7 +14,7 @@ class UserService{
             return user;
         } catch (error) {
             console.log("Problem in Service Layer");
-            throw {error};
+            throw error;
         }
     }
 

@@ -18,11 +18,11 @@ const create= async (req, res)=>{
         });
     } catch (error) {
         console.log("Error in Controller Layer");
-        return res.status(500).json({
+        return res.status(error.statusCode).json({
             data: {},
-            error:error,
+            error:error.explaination,
             success: false,
-            message: "Unable to Create User"
+            message: error.message
         });
     }
 }
